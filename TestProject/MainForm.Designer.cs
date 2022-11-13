@@ -29,21 +29,11 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.createButton = new System.Windows.Forms.Button();
             this.timer = new System.Windows.Forms.Timer(this.components);
             this.pictureBox = new System.Windows.Forms.PictureBox();
+            this.createButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.SuspendLayout();
-            // 
-            // createButton
-            // 
-            this.createButton.Location = new System.Drawing.Point(23, 12);
-            this.createButton.Name = "createButton";
-            this.createButton.Size = new System.Drawing.Size(100, 30);
-            this.createButton.TabIndex = 4;
-            this.createButton.Text = "생성하기";
-            this.createButton.UseVisualStyleBackColor = true;
-            this.createButton.Click += new System.EventHandler(this.createButton_Click);
             // 
             // timer
             // 
@@ -61,7 +51,18 @@
             this.pictureBox.Size = new System.Drawing.Size(760, 460);
             this.pictureBox.TabIndex = 17;
             this.pictureBox.TabStop = false;
+            this.pictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox_Paint);
             this.pictureBox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.pictureBox_PreviewKeyDown);
+            // 
+            // createButton
+            // 
+            this.createButton.Location = new System.Drawing.Point(23, 12);
+            this.createButton.Name = "createButton";
+            this.createButton.Size = new System.Drawing.Size(100, 30);
+            this.createButton.TabIndex = 4;
+            this.createButton.Text = "생성하기";
+            this.createButton.UseVisualStyleBackColor = true;
+            this.createButton.Click += new System.EventHandler(this.createButton_Click);
             // 
             // MainForm
             // 
@@ -79,10 +80,9 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Button createButton;
         private System.Windows.Forms.Timer timer;
         private System.Windows.Forms.PictureBox pictureBox;
+        private System.Windows.Forms.Button createButton;
     }
 }
 

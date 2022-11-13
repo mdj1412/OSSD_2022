@@ -23,38 +23,37 @@ namespace TestProject
         int startx;
         int count = 0;
 
-        Point spoint;
         Point epoint;
 
         /// <summary>
         /// 최소 X
         /// </summary>
         private int minimumX;
-        
+
         /// <summary>
         /// 최소 Y
         /// </summary>
         private int minimumY;
-        
+
         /// <summary>
         /// 셀 너비
         /// </summary>
         private int cellWidth;
-        
+
         /// <summary>
         /// 셀 높이
         /// </summary>
         private int cellHeight;
-        
+
         /// <summary>
         /// 행 카운트
         /// </summary>
-        private int rowCount=6;
-        
+        private int rowCount;
+
         /// <summary>
         /// 컬럼 카운트
         /// </summary>
-        private int columnCount=6;
+        private int columnCount;
 
         /// <summary>
         /// 노드 배열
@@ -65,7 +64,7 @@ namespace TestProject
         /// 시작 노드
         /// </summary>
         private MazeNode startNode = null;
-        
+
         /// <summary>
         /// 종료 노드
         /// </summary>
@@ -75,16 +74,6 @@ namespace TestProject
         /// 경로 노드 리스트
         /// </summary>
         private List<MazeNode> pathNodeList = null;
-
-        /// <summary>
-        /// 마지막 사용 이웃 리스트
-        /// </summary>
-        private List<int> lastUsedNeighborList = null;
-
-        /// <summary>
-        /// 솔루션 발견 여부
-        /// </summary>
-        private bool solutionFound = false;
 
         #endregion
 
@@ -99,15 +88,8 @@ namespace TestProject
         public MainForm()
         {
             InitializeComponent();
-
-            this.createButton.Click    += createButton_Click;
-
-            this.timer.Enabled = false;
-            
-            //    this.pictureBox.MouseClick += pictureBox_MouseClick;
-
-            this.pictureBox.Paint      += pictureBox_Paint;
-
+            columnCount = 6;
+            rowCount = 6;
         }
 
         #endregion
@@ -125,16 +107,18 @@ namespace TestProject
         /// <param name="e">이벤트 인자</param>
         private void createButton_Click(object sender, EventArgs e)
         {
-            this.timer.Enabled = false;
+            start();
+        }
+
+        private void start()
+        {
             this.createButton.Enabled = false;
             this.pictureBox.Focus();
 
-            this.startNode = null;
+            this.cellWidth = this.pictureBox.ClientSize.Width / (this.columnCount + 2);
+            this.cellHeight = this.pictureBox.ClientSize.Height / (this.rowCount + 2);
 
-            this.cellWidth  = this.pictureBox.ClientSize.Width  / (this.columnCount + 2);
-            this.cellHeight = this.pictureBox.ClientSize.Height / (this.rowCount    + 2);
-
-            if(this.cellWidth > this.cellHeight)
+            if (this.cellWidth > this.cellHeight)
             {
                 this.cellWidth = this.cellHeight;
             }
@@ -143,13 +127,10 @@ namespace TestProject
                 this.cellHeight = this.cellWidth;
             }
 
-            this.minimumX = (this.pictureBox.ClientSize.Width  - this.columnCount * this.cellWidth ) / 2;
-            this.minimumY = (this.pictureBox.ClientSize.Height - this.rowCount    * this.cellHeight) / 2;
+            this.minimumX = (this.pictureBox.ClientSize.Width - this.columnCount * this.cellWidth) / 2;
+            this.minimumY = (this.pictureBox.ClientSize.Height - this.rowCount * this.cellHeight) / 2;
 
             this.nodeArray = GetNodeArray(this.columnCount, this.rowCount);
-
-            this.pathNodeList         = null;
-            this.lastUsedNeighborList = null;
 
             dd = cellHeight / 2;
             starty = minimumY + dd;
@@ -157,27 +138,24 @@ namespace TestProject
 
             FindSpanningTree(this.nodeArray[0, 0]);
 
-           
+
             st = new Point(startx, starty);
-            //spoint = new Point(startx, starty);
-            epoint = new Point(this.pictureBox.ClientSize.Width - dd - this.minimumX, this.pictureBox.ClientSize.Height-dd-this.minimumY);
+            epoint = new Point(this.pictureBox.ClientSize.Width - dd - this.minimumX, this.pictureBox.ClientSize.Height - dd - this.minimumY);
 
             this.startNode = FindNode(st);
             this.endNode = FindNode(epoint);
 
             DisplayMaze(this.nodeArray);
 
-            /*if ((this.startNode != null) && (this.endNode != null))
+            foreach (MazeNode node in this.nodeArray)
             {
-                StartSolving();
-            }*/
-
-            this.pictureBox.Refresh();
-
+                node.DefineNeighbor();
+            }
+            this.pictureBox.Refresh(); 
         }
 
         #endregion
-        
+
         #region 픽처 박스 페인트시 처리하기 - pictureBox_Paint(sender, e)
 
         /// <summary>
@@ -189,52 +167,27 @@ namespace TestProject
         {
             e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
 
-            if(this.startNode != null)
+            if (this.startNode != null)
             {
                 this.startNode.DrawCenterPoint(e.Graphics, Brushes.Red);
             }
 
-            if(this.endNode != null)
+            if (this.endNode != null)
             {
                 this.endNode.DrawCenterPoint(e.Graphics, Brushes.Green);
             }
 
-            if((this.pathNodeList != null) && (this.pathNodeList.Count > 1))
+            if ((this.pathNodeList != null) && (this.pathNodeList.Count > 1))
             {
                 List<PointF> pointList = new List<PointF>();
 
-                foreach(MazeNode node in this.pathNodeList)
+                foreach (MazeNode node in this.pathNodeList)
                 {
                     pointList.Add(node.CenterPoint);
                 }
-
-                if(this.solutionFound)
-                {
-                    e.Graphics.DrawLines(Pens.Red, pointList.ToArray());
-                }
-                else
-                {
-                    e.Graphics.DrawLines(Pens.Blue, pointList.ToArray());
-                }
             }
+
         }
-
-        #endregion
-        #region FPS 스크롤바 스크롤시 처리하기 - fpsScrollBar_Scroll(sender, e)
-
-        /// <summary>
-        /// FPS 스크롤바 스크롤시 처리하기
-        /// </summary>
-        /// <param name="sender">이벤트 발생자</param>
-        /// <param name="e">이벤트 인자</param>
-        /*private void fpsScrollBar_Scroll(object sender, ScrollEventArgs e)
-        {
-            int fps = this.fpsScrollBar.Value;
-
-            this.fpsLabel.Text = fps.ToString();
-
-            this.timer.Interval = 1000 / fps;
-        }*/
 
         #endregion
 
@@ -252,11 +205,11 @@ namespace TestProject
         {
             MazeNode[,] nodeArray = new MazeNode[height, width];
 
-            for(int row = 0; row < height; row++)
+            for (int row = 0; row < height; row++)
             {
                 int y = this.minimumY + this.cellHeight * row;
 
-                for(int column = 0; column < width; column++)
+                for (int column = 0; column < width; column++)
                 {
                     int x = this.minimumX + this.cellWidth * column;
 
@@ -264,26 +217,26 @@ namespace TestProject
                 }
             }
 
-            for(int row = 0; row < height; row++)
+            for (int row = 0; row < height; row++)
             {
-                for(int column = 0; column < width; column++)
+                for (int column = 0; column < width; column++)
                 {
-                    if(row > 0)
+                    if (row > 0)
                     {
                         nodeArray[row, column].AdjacentNodeArray[MazeNode.North] = nodeArray[row - 1, column];
                     }
 
-                    if(row < height - 1)
+                    if (row < height - 1)
                     {
                         nodeArray[row, column].AdjacentNodeArray[MazeNode.South] = nodeArray[row + 1, column];
                     }
 
-                    if(column > 0)
+                    if (column > 0)
                     {
                         nodeArray[row, column].AdjacentNodeArray[MazeNode.West] = nodeArray[row, column - 1];
                     }
 
-                    if(column < width - 1)
+                    if (column < width - 1)
                     {
                         nodeArray[row, column].AdjacentNodeArray[MazeNode.East] = nodeArray[row, column + 1];
                     }
@@ -308,15 +261,15 @@ namespace TestProject
 
             List<MazeLink> linkList = new List<MazeLink>();
 
-            foreach(MazeNode neighborNode in rootNode.AdjacentNodeArray)
+            foreach (MazeNode neighborNode in rootNode.AdjacentNodeArray)
             {
-                if(neighborNode != null)
+                if (neighborNode != null)
                 {
                     linkList.Add(new MazeLink(rootNode, neighborNode));
                 }
             }
 
-            while(linkList.Count > 0)
+            while (linkList.Count > 0)
             {
                 int linkCount = random.Next(0, linkList.Count);
 
@@ -328,17 +281,17 @@ namespace TestProject
 
                 link.ToNode.Predecessor = link.FromNode;
 
-                for(int i = linkList.Count - 1; i >= 0; i--)
+                for (int i = linkList.Count - 1; i >= 0; i--)
                 {
-                    if(linkList[i].ToNode.Predecessor != null)
+                    if (linkList[i].ToNode.Predecessor != null)
                     {
                         linkList.RemoveAt(i);
                     }
                 }
 
-                foreach(MazeNode neighborNode in toNode.AdjacentNodeArray)
+                foreach (MazeNode neighborNode in toNode.AdjacentNodeArray)
                 {
-                    if((neighborNode != null) && (neighborNode.Predecessor == null))
+                    if ((neighborNode != null) && (neighborNode.Predecessor == null))
                     {
                         linkList.Add(new MazeLink(toNode, neighborNode));
                     }
@@ -355,7 +308,7 @@ namespace TestProject
         /// <param name="nodeArray">노드 배열</param>
         private void DisplayMaze(MazeNode[,] nodeArray)
         {
-            int width  = nodeArray.GetUpperBound(1) + 1;
+            int width = nodeArray.GetUpperBound(1) + 1;
             int height = nodeArray.GetUpperBound(0) + 1;
 
             Bitmap bitmap = new Bitmap
@@ -364,13 +317,13 @@ namespace TestProject
                 this.pictureBox.ClientSize.Height
             );
 
-            using(Graphics graphics = Graphics.FromImage(bitmap))
+            using (Graphics graphics = Graphics.FromImage(bitmap))
             {
                 graphics.SmoothingMode = SmoothingMode.AntiAlias;
 
-                for(int y = 0; y < height; y++)
+                for (int y = 0; y < height; y++)
                 {
-                    for(int x = 0; x < width; x++)
+                    for (int x = 0; x < width; x++)
                     {
                         nodeArray[y, x].DrawWall(graphics, Pens.Black);
                     }
@@ -390,126 +343,82 @@ namespace TestProject
         /// <returns>노드</returns>
         private MazeNode FindNode(Point point)
         {
-            if(point.X < this.minimumX)
+            if (point.X < this.minimumX)
             {
-                startx += dd * 2;
-                st = new Point(startx, starty);
-                this.startNode = FindNode(st);
-                return startNode;
+                return null;
             }
 
-            if(point.Y < this.minimumY)
+            if (point.Y < this.minimumY)
             {
-                starty += dd * 2;
-                st = new Point(startx, starty);
-                this.startNode = FindNode(st);
-                return startNode;
+                return null;
             }
 
             int row = (point.Y - this.minimumY) / this.cellHeight;
 
-            if(row >= this.rowCount)
+            if (row >= this.rowCount)
             {
-                starty -= dd * 2;
-                st = new Point(startx, starty);
-                this.startNode = FindNode(st);
-                return startNode;
+                return null;
             }
 
             int column = (point.X - this.minimumX) / this.cellWidth;
 
-            if(column >= this.columnCount)
+            if (column >= this.columnCount)
             {
-                startx -= dd * 2;
-                st = new Point(startx, starty);
-                this.startNode = FindNode(st);
-                return startNode;
+                return null;
             }
-
             return this.nodeArray[row, column];
         }
 
         #endregion
-        #region
+        #region - 게임키보드이벤트
 
         private void pictureBox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
-            MazeNode prevNode = this.startNode;
-            foreach (MazeNode node in this.nodeArray)
-            {
-                node.DefineNeighbor();
-            }
-
             switch (e.KeyCode)
             {
                 case Keys.Up:
-                    if (prevNode.isroot[0])
+                    if (startNode.isroot[0])
                     {
                         starty -= dd * 2;
-                        st = new Point(startx, starty);
-                        this.startNode = FindNode(st);
-                        this.pictureBox.Refresh();
-                        pictureBox.Focus();
                     }
                     break;
                 case Keys.Down:
-                    if (prevNode.isroot[1])
+                    if (startNode.isroot[1])
                     {
                         starty += dd * 2;
-                        st = new Point(startx, starty);
-                        this.startNode = FindNode(st);
-                        this.pictureBox.Refresh();
-                        pictureBox.Focus();
                     }
                     break;
                 case Keys.Right:
-                    if (prevNode.isroot[2]) { 
+                    if (startNode.isroot[2])
+                    {
                         startx += dd * 2;
-                        st = new Point(startx, starty);
-                        this.startNode = FindNode(st);
-                        this.pictureBox.Refresh();
-                        pictureBox.Focus();
                     }
                     break;
                 case Keys.Left:
-                    if (prevNode.isroot[3])
+                    if (startNode.isroot[3])
                     {
                         startx -= dd * 2;
-                        st = new Point(startx, starty);
-                        this.startNode = FindNode(st);
-
-
-                        this.pictureBox.Refresh();
-                        pictureBox.Focus();
                     }
                     break;
             }
-            if (this.startNode==this.endNode)
+
+            st = new Point(startx, starty);
+            this.startNode = FindNode(st);
+            this.pictureBox.Refresh();
+            pictureBox.Focus();
+
+            if (this.startNode == this.endNode)
             {
-                
-                if (count % 3 == 0) {
-                    this.createButton.Enabled = true;
-                    this.pictureBox.Focus();
-                    count += 1;
-                    
-                }
-                else if (count % 3 == 1) {
+                if (count % 3 == 1)
                     this.rowCount += 2;
-                    this.createButton.Enabled = true;
-                    this.pictureBox.Focus();
-                    count += 1;
-                }
                 else if (count % 3 == 2)
-                {
                     this.columnCount += 2;
-                    this.createButton.Enabled = true;
-                    this.pictureBox.Focus();
-                    count += 1;
-                }
+                count++;
+                start();
             }
-            
         }
         #endregion
+
     }
 }
 
