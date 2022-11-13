@@ -13,6 +13,8 @@ namespace TestProject
 
         #region Field
 
+        public bool[] isroot = new bool[4];
+
         /// <summary>
         /// 북쪽
         /// </summary>
@@ -96,6 +98,10 @@ namespace TestProject
         public MazeNode(float x, float y, float width, float height)
         {
             BoundRectangle = new RectangleF(x, y, width, height);
+            for (int i = 0; i < 4; i++)
+            {
+                isroot[i] = false;
+            }
         }
 
         #endregion
@@ -111,13 +117,16 @@ namespace TestProject
         public void DefineNeighbor()
         {
             NeighborList = new List<MazeNode>();
+            int i = 0;
 
             foreach(MazeNode node in AdjacentNodeArray)
             {
                 if((node != null) && ((node.Predecessor == this) || (node == this.Predecessor)))
                 {
+                    isroot[i] = true;
                     NeighborList.Add(node);
                 }
+                i++;
             }
         }
 
@@ -134,7 +143,7 @@ namespace TestProject
             graphics.DrawRectangle
             (
                 pen,
-                BoundRectangle.X   + 1,
+                BoundRectangle.Left   + 1,
                 BoundRectangle.Y      + 1,
                 BoundRectangle.Width  - 2,
                 BoundRectangle.Height - 2

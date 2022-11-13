@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
+
 namespace TestProject
 {
     /// <summary>
@@ -15,6 +16,15 @@ namespace TestProject
         ////////////////////////////////////////////////////////////////////////////////////////// Private
 
         #region Field
+
+        int dd;
+        Point st;
+        int starty;
+        int startx;
+        int count = 0;
+
+        Point spoint;
+        Point epoint;
 
         /// <summary>
         /// 최소 X
@@ -39,12 +49,12 @@ namespace TestProject
         /// <summary>
         /// 행 카운트
         /// </summary>
-        private int rowCount;
+        private int rowCount=6;
         
         /// <summary>
         /// 컬럼 카운트
         /// </summary>
-        private int columnCount;
+        private int columnCount=6;
 
         /// <summary>
         /// 노드 배열
@@ -90,12 +100,14 @@ namespace TestProject
         {
             InitializeComponent();
 
-            //this.createButton.Click    += createButton_Click;
-            this.pictureBox.MouseClick += pictureBox_MouseClick;
+            this.createButton.Click    += createButton_Click;
+
+            this.timer.Enabled = false;
+            
+            //    this.pictureBox.MouseClick += pictureBox_MouseClick;
+
             this.pictureBox.Paint      += pictureBox_Paint;
-            this.timer.Tick            += timer_Tick;
-            // 초기 속도
-            this.timer.Interval = 1000 / 10;
+
         }
 
         #endregion
@@ -114,9 +126,10 @@ namespace TestProject
         private void createButton_Click(object sender, EventArgs e)
         {
             this.timer.Enabled = false;
+            this.createButton.Enabled = false;
+            this.pictureBox.Focus();
 
-            this.columnCount = int.Parse(this.widthTextBox.Text);
-            this.rowCount    = int.Parse(this.heightTextBox.Text);
+            this.startNode = null;
 
             this.cellWidth  = this.pictureBox.ClientSize.Width  / (this.columnCount + 2);
             this.cellHeight = this.pictureBox.ClientSize.Height / (this.rowCount    + 2);
@@ -137,68 +150,34 @@ namespace TestProject
 
             this.pathNodeList         = null;
             this.lastUsedNeighborList = null;
-            this.startNode            = null;
-            this.endNode              = null;
+
+            dd = cellHeight / 2;
+            starty = minimumY + dd;
+            startx = minimumX + dd;
 
             FindSpanningTree(this.nodeArray[0, 0]);
 
-            DisplayMaze(this.nodeArray);
-
-            // 추가한 코드~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
-            //this.timer.Enabled = false;
-            int dd = cellWidth / 2;
-            int starty = minimumY + dd;
-            int startx = minimumX + dd;
-            Point st = new Point(startx, starty);
-            Point en = new Point(pictureBox.ClientSize.Width - startx, pictureBox.ClientSize.Height - starty);
+           
+            st = new Point(startx, starty);
+            //spoint = new Point(startx, starty);
+            epoint = new Point(this.pictureBox.ClientSize.Width - dd - this.minimumX, this.pictureBox.ClientSize.Height-dd-this.minimumY);
 
             this.startNode = FindNode(st);
-            this.endNode = FindNode(en);
+            this.endNode = FindNode(epoint);
 
-            if ((this.startNode != null) && (this.endNode != null))
+            DisplayMaze(this.nodeArray);
+
+            /*if ((this.startNode != null) && (this.endNode != null))
             {
                 StartSolving();
-            }
+            }*/
 
             this.pictureBox.Refresh();
-            // 추가한 코드~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
+
         }
 
         #endregion
-        #region 픽처 박스 마우스 클릭시 처리하기 - pictureBox_MouseClick(sender, e)
-
-        /// <summary>
-        /// 픽처 박스 마우스 클릭시 처리하기
-        /// </summary>
-        /// <param name="sender">이벤트 발생자</param>
-        /// <param name="e">이벤트 인자</param>
-        private void pictureBox_MouseClick(object sender, MouseEventArgs e)
-        {
-            this.timer.Enabled = false;
-
-            if(this.nodeArray == null)
-            {
-                return;
-            }
-
-            if(e.Button == MouseButtons.Left)
-            {
-                this.startNode = FindNode(e.Location);
-            }
-            else if(e.Button == MouseButtons.Right)
-            {
-                this.endNode = FindNode(e.Location);
-            }
-
-            if((this.startNode != null) && (this.endNode != null))
-            {
-                StartSolving();
-            }
-
-            this.pictureBox.Refresh();
-        }
-
-        #endregion
+        
         #region 픽처 박스 페인트시 처리하기 - pictureBox_Paint(sender, e)
 
         /// <summary>
@@ -241,19 +220,21 @@ namespace TestProject
         }
 
         #endregion
-        #region 타이머 틱 처리하기 - timer_Tick(sender, e)
+        #region FPS 스크롤바 스크롤시 처리하기 - fpsScrollBar_Scroll(sender, e)
 
         /// <summary>
-        /// 타이머 틱 처리하기
+        /// FPS 스크롤바 스크롤시 처리하기
         /// </summary>
         /// <param name="sender">이벤트 발생자</param>
         /// <param name="e">이벤트 인자</param>
-        private void timer_Tick(object sender, EventArgs e)
+        /*private void fpsScrollBar_Scroll(object sender, ScrollEventArgs e)
         {
-            Solve();
- 
-            this.pictureBox.Refresh();
-        }
+            int fps = this.fpsScrollBar.Value;
+
+            this.fpsLabel.Text = fps.ToString();
+
+            this.timer.Interval = 1000 / fps;
+        }*/
 
         #endregion
 
@@ -411,158 +392,124 @@ namespace TestProject
         {
             if(point.X < this.minimumX)
             {
-                return null;
+                startx += dd * 2;
+                st = new Point(startx, starty);
+                this.startNode = FindNode(st);
+                return startNode;
             }
 
             if(point.Y < this.minimumY)
             {
-                return null;
+                starty += dd * 2;
+                st = new Point(startx, starty);
+                this.startNode = FindNode(st);
+                return startNode;
             }
 
             int row = (point.Y - this.minimumY) / this.cellHeight;
 
             if(row >= this.rowCount)
             {
-                return null;
+                starty -= dd * 2;
+                st = new Point(startx, starty);
+                this.startNode = FindNode(st);
+                return startNode;
             }
 
             int column = (point.X - this.minimumX) / this.cellWidth;
 
             if(column >= this.columnCount)
             {
-                return null;
+                startx -= dd * 2;
+                st = new Point(startx, starty);
+                this.startNode = FindNode(st);
+                return startNode;
             }
 
             return this.nodeArray[row, column];
         }
 
         #endregion
-        #region 해결 시작하기 - StartSolving()
+        #region
 
-        /// <summary>
-        /// 해결 시작하기
-        /// </summary>
-        private void StartSolving()
+        private void pictureBox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
-            this.pathNodeList = new List<MazeNode>();
-
-            this.lastUsedNeighborList = new List<int>();
-
-            foreach(MazeNode node in this.nodeArray)
-            {
-                node.InPath = false;
-            }
-
-            foreach(MazeNode node in this.nodeArray)
+            MazeNode prevNode = this.startNode;
+            foreach (MazeNode node in this.nodeArray)
             {
                 node.DefineNeighbor();
             }
 
-            this.pathNodeList.Add(this.startNode);
-
-            this.lastUsedNeighborList.Add(-1);
-
-            this.startNode.InPath = true;
-
-            this.solutionFound = false;
-
-            this.timer.Enabled = true;
-        }
-
-        #endregion
-        #region 해결하기 - Solve()
-
-        /// <summary>
-        /// 해결하기
-        /// </summary>
-        private void Solve()
-        {
-            int lastNodeIndex = this.pathNodeList.Count - 1;
-
-            MazeNode lastNode = this.pathNodeList[lastNodeIndex];
-
-            if (lastNode == this.endNode)
-            {
-                this.solutionFound = true;
-
-                this.timer.Enabled = false;
-
-                return;
-            }
-
-            bool neighborFound = false;
-
-            int neighborIndex = this.lastUsedNeighborList[lastNodeIndex];
-
-            MazeNode neighborNode = null;
-
-            for (; ; )
-            {
-                neighborIndex++;
-
-                if (neighborIndex >= lastNode.NeighborList.Count)
-                {
-                    break;
-                }
-
-                neighborNode = lastNode.NeighborList[neighborIndex];
-
-                if (!neighborNode.InPath)
-                {
-                    neighborFound = true;
-
-                    this.lastUsedNeighborList[lastNodeIndex] = neighborIndex;
-
-                    break;
-                }
-            }
-
-            if (neighborFound)
-            {
-                this.pathNodeList.Add(neighborNode);
-
-                this.lastUsedNeighborList.Add(-1);
-
-                neighborNode.InPath = true;
-            }
-            else
-            {
-                lastNode.InPath = false;
-
-                this.pathNodeList.RemoveAt(lastNodeIndex);
-
-                this.lastUsedNeighborList.RemoveAt(lastNodeIndex);
-            }
-        }
-
-        #endregion
-
-        private void pictureBox_MouseDown(object sender, MouseEventArgs e)
-        {
-            pictureBox.Focus();
-        }
-
-        private void pictureBox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
-        {
             switch (e.KeyCode)
             {
                 case Keys.Up:
-                    MessageBox.Show("test");
-                    pictureBox.Focus();
+                    if (prevNode.isroot[0])
+                    {
+                        starty -= dd * 2;
+                        st = new Point(startx, starty);
+                        this.startNode = FindNode(st);
+                        this.pictureBox.Refresh();
+                        pictureBox.Focus();
+                    }
                     break;
                 case Keys.Down:
-                    MessageBox.Show("testnnn");
-                    pictureBox.Focus();
+                    if (prevNode.isroot[1])
+                    {
+                        starty += dd * 2;
+                        st = new Point(startx, starty);
+                        this.startNode = FindNode(st);
+                        this.pictureBox.Refresh();
+                        pictureBox.Focus();
+                    }
                     break;
                 case Keys.Right:
-                    MessageBox.Show("testnn==wewn");
-                    pictureBox.Focus();
+                    if (prevNode.isroot[2]) { 
+                        startx += dd * 2;
+                        st = new Point(startx, starty);
+                        this.startNode = FindNode(st);
+                        this.pictureBox.Refresh();
+                        pictureBox.Focus();
+                    }
                     break;
                 case Keys.Left:
-                    MessageBox.Show("tedsdsastnn==wewn");
-                    pictureBox.Focus();
+                    if (prevNode.isroot[3])
+                    {
+                        startx -= dd * 2;
+                        st = new Point(startx, starty);
+                        this.startNode = FindNode(st);
+
+
+                        this.pictureBox.Refresh();
+                        pictureBox.Focus();
+                    }
                     break;
             }
+            if (this.startNode==this.endNode)
+            {
+                
+                if (count % 3 == 0) {
+                    this.createButton.Enabled = true;
+                    this.pictureBox.Focus();
+                    count += 1;
+                    
+                }
+                else if (count % 3 == 1) {
+                    this.rowCount += 2;
+                    this.createButton.Enabled = true;
+                    this.pictureBox.Focus();
+                    count += 1;
+                }
+                else if (count % 3 == 2)
+                {
+                    this.columnCount += 2;
+                    this.createButton.Enabled = true;
+                    this.pictureBox.Focus();
+                    count += 1;
+                }
+            }
+            
         }
+        #endregion
     }
 }
+
