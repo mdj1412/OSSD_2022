@@ -1,0 +1,10 @@
+C:\Users\HC\Desktop\오픈소스소프트웨어개발\게임자료\TestProject\bin\Debug\TestProject.exe.config
+C:\Users\HC\Desktop\오픈소스소프트웨어개발\게임자료\TestProject\bin\Debug\TestProject.exe
+C:\Users\HC\Desktop\오픈소스소프트웨어개발\게임자료\TestProject\bin\Debug\TestProject.pdb
+C:\Users\HC\Desktop\오픈소스소프트웨어개발\게임자료\TestProject\obj\Debug\TestProject.csproj.AssemblyReference.cache
+C:\Users\HC\Desktop\오픈소스소프트웨어개발\게임자료\TestProject\obj\Debug\TestProject.MainForm.resources
+C:\Users\HC\Desktop\오픈소스소프트웨어개발\게임자료\TestProject\obj\Debug\TestProject.Properties.Resources.resources
+C:\Users\HC\Desktop\오픈소스소프트웨어개발\게임자료\TestProject\obj\Debug\TestProject.csproj.GenerateResource.cache
+C:\Users\HC\Desktop\오픈소스소프트웨어개발\게임자료\TestProject\obj\Debug\TestProject.csproj.CoreCompileInputs.cache
+C:\Users\HC\Desktop\오픈소스소프트웨어개발\게임자료\TestProject\obj\Debug\TestProject.exe
+C:\Users\HC\Desktop\오픈소스소프트웨어개발\게임자료\TestProject\obj\Debug\TestProject.pdb
