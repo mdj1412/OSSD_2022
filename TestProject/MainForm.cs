@@ -18,6 +18,7 @@ namespace TestProject
         #region Field
 
         int dd;
+        int fps=5;
         Point st;
         int starty;
         int startx;
@@ -75,6 +76,10 @@ namespace TestProject
         /// </summary>
         private List<MazeNode> pathNodeList = null;
 
+        /// <summary>
+        /// 자식 창
+        /// </summary>
+        private Child child_computer;
         #endregion
 
         //////////////////////////////////////////////////////////////////////////////////////////////////// Constructor
@@ -88,8 +93,8 @@ namespace TestProject
         public MainForm()
         {
             InitializeComponent();
-            columnCount = 6;
-            rowCount = 6;
+            
+            
         }
 
         #endregion
@@ -105,9 +110,23 @@ namespace TestProject
         /// </summary>
         /// <param name="sender">이벤트 발생자</param>
         /// <param name="e">이벤트 인자</param>
-        private void createButton_Click(object sender, EventArgs e)
+        
+        private void rdnAlone_CheckedChanged(object sender, EventArgs e)
         {
+            columnCount = 6;
+            rowCount = 6;
             start();
+            this.groupBox1.Enabled = false;
+        }
+
+        private void rdnTime_CheckedChanged(object sender, EventArgs e)
+        {
+            columnCount = 5;
+            rowCount = 15;
+           
+            start();
+            this.groupBox1.Enabled = false;
+
         }
 
         private void start()
@@ -331,6 +350,18 @@ namespace TestProject
             }
 
             this.pictureBox.Image = bitmap;
+            if (this.rdnTime.Checked == true)
+            {
+                this.child_computer = new Child(bitmap, this.nodeArray,fps);
+                child_computer.Location = new Point(750, 0);
+                //this.Size = new Size(800, 600);
+                //child_computer.Size = new Size(800, 600);
+                child_computer.Show();
+                //컴퓨터가 이겼을때 이곳으로 return
+        
+            }
+
+            
         }
 
         #endregion
@@ -408,17 +439,27 @@ namespace TestProject
             pictureBox.Focus();
 
             if (this.startNode == this.endNode)
-            {
+            { 
                 if (count % 3 == 1)
                     this.rowCount += 2;
                 else if (count % 3 == 2)
                     this.columnCount += 2;
                 count++;
+                MessageBox.Show("You won!"); //내가 컴퓨터를 이긴 경우
+               if (rdnTime.Checked == true)
+                {
+                    child_computer.Close();
+                    fps += 2;
+                    columnCount += 1;
+                    rowCount += 3;
+                }
                 start();
             }
         }
+
         #endregion
 
+        
     }
 }
 

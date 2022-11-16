@@ -18,3 +18,14 @@ C:\Users\HC\Desktop\오픈소스소프트웨어개발\게임자료\OSSD_2022\Tes
 C:\Users\HC\Desktop\오픈소스소프트웨어개발\게임자료\OSSD_2022\TestProject\obj\Debug\TestProject.csproj.CoreCompileInputs.cache
 C:\Users\HC\Desktop\오픈소스소프트웨어개발\게임자료\OSSD_2022\TestProject\obj\Debug\TestProject.exe
 C:\Users\HC\Desktop\오픈소스소프트웨어개발\게임자료\OSSD_2022\TestProject\obj\Debug\TestProject.pdb
+C:\Users\jjaew\OneDrive\Desktop\OSSD_2022\TestProject\bin\Debug\TestProject.exe.config
+C:\Users\jjaew\OneDrive\Desktop\OSSD_2022\TestProject\bin\Debug\TestProject.exe
+C:\Users\jjaew\OneDrive\Desktop\OSSD_2022\TestProject\bin\Debug\TestProject.pdb
+C:\Users\jjaew\OneDrive\Desktop\OSSD_2022\TestProject\obj\Debug\TestProject.csproj.AssemblyReference.cache
+C:\Users\jjaew\OneDrive\Desktop\OSSD_2022\TestProject\obj\Debug\TestProject.MainForm.resources
+C:\Users\jjaew\OneDrive\Desktop\OSSD_2022\TestProject\obj\Debug\TestProject.Properties.Resources.resources
+C:\Users\jjaew\OneDrive\Desktop\OSSD_2022\TestProject\obj\Debug\TestProject.csproj.GenerateResource.cache
+C:\Users\jjaew\OneDrive\Desktop\OSSD_2022\TestProject\obj\Debug\TestProject.csproj.CoreCompileInputs.cache
+C:\Users\jjaew\OneDrive\Desktop\OSSD_2022\TestProject\obj\Debug\TestProject.exe
+C:\Users\jjaew\OneDrive\Desktop\OSSD_2022\TestProject\obj\Debug\TestProject.pdb
+C:\Users\jjaew\OneDrive\Desktop\OSSD_2022\TestProject\obj\Debug\TestProject.Child.resources
