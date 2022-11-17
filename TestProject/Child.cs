@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing.Drawing2D;
+using System.Linq.Expressions;
 
 namespace TestProject
 {
@@ -93,7 +94,7 @@ namespace TestProject
 
         #endregion
 
-        public Child(Bitmap bitmap, MazeNode[,] nodeArray,int fps)
+        public Child(Bitmap bitmap, MazeNode[,] nodeArray,int fps,int dd,Point st,MazeNode endNode)
         {
             InitializeComponent();
             this.Location=new Point(750,0);
@@ -101,48 +102,22 @@ namespace TestProject
             this.nodeArray = nodeArray;
             this.pictureBox.Image = bitmap;
 
-            columnCount = 5;
-            rowCount = 15;
-            this.fps = fps;
-            
-
-            this.pictureBox.Focus();
-
             this.cellWidth = this.pictureBox.ClientSize.Width / (this.columnCount + 2);
             this.cellHeight = this.pictureBox.ClientSize.Height / (this.rowCount + 2);
 
-            if (this.cellWidth > this.cellHeight)
-            {
-                this.cellWidth = this.cellHeight;
-            }
-            else
-            {
-                this.cellHeight = this.cellWidth;
-            }
+            this.dd = dd;
+            this.st = st;
+            this.endNode = endNode;
 
-            this.minimumX = (this.pictureBox.ClientSize.Width - this.columnCount * this.cellWidth) / 2;
-            this.minimumY = (this.pictureBox.ClientSize.Height - this.rowCount * this.cellHeight) / 2;
-
-            dd = cellHeight / 2;
-            starty = minimumY + dd;
-            startx = minimumX + dd;
-
-            st = new Point(startx, starty);
-            epoint = new Point(this.pictureBox.ClientSize.Width - dd - this.minimumX, this.pictureBox.ClientSize.Height - dd - this.minimumY);
-
+            columnCount = 5;
+            rowCount = 15;
+            this.fps = fps;
             this.startNode = FindNode(st);
-            this.endNode = FindNode(epoint);
             this.pathNodeList = null;
             this.lastUsedNeighborList = null;
 
-            foreach (MazeNode node in this.nodeArray)
-            {
-                node.DefineNeighbor();
-            }
             StartSolving();
             this.pictureBox.Refresh();
-            
-            
         }
 
         #region 픽처 박스 페인트시 처리하기 - pictureBox_Paint(sender, e)
@@ -299,7 +274,9 @@ namespace TestProject
         }
 
         #endregion
+
         #region 해결하기 - Solve()
+
 
         /// <summary>
         /// 해결하기
@@ -315,6 +292,8 @@ namespace TestProject
                 this.solutionFound = true;
 
                 this.timer.Enabled = false;
+                MainForm form = (MainForm)Owner;
+                form.isEnd = true;
                 MessageBox.Show("Computer won!");
 
                 return;

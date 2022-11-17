@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Linq.Expressions;
 using System.Windows.Forms;
 
 
@@ -23,6 +24,8 @@ namespace TestProject
         int starty;
         int startx;
         int count = 0;
+
+        public bool isEnd = false;
 
         Point epoint;
 
@@ -350,10 +353,10 @@ namespace TestProject
             this.pictureBox.Image = bitmap;
             if (this.rdnTime.Checked == true)
             {
-                this.child_computer = new Child(bitmap, this.nodeArray,fps);
+                this.child_computer = new Child(bitmap, this.nodeArray,fps,dd,st,endNode);
+                child_computer.Owner = this;
                 child_computer.Show();
                 //컴퓨터가 이겼을때 이곳으로 return
-        
             }
 
             
@@ -400,6 +403,13 @@ namespace TestProject
 
         private void pictureBox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
+            if (isEnd)
+            {
+                this.groupBox1.Enabled = true;
+                this.createButton.Enabled = true;
+                //this.pictureBox = new PictureBox();
+                isEnd = false;
+            }
             switch (e.KeyCode)
             {
                 case Keys.Up:
