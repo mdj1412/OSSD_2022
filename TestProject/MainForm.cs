@@ -111,23 +111,32 @@ namespace TestProject
         /// </summary>
         /// <param name="sender">이벤트 발생자</param>
         /// <param name="e">이벤트 인자</param>
-        
-        private void rdnAlone_CheckedChanged(object sender, EventArgs e)
+
+        private void createButten_Click(object sender, EventArgs e)
         {
-            columnCount = 6;
-            rowCount = 6;
-            start();
-            this.groupBox1.Enabled = false;
+            if (rdnAlone.Checked)
+            {
+                columnCount = 6;
+                rowCount = 6;
+                start();
+                this.groupBox1.Enabled = false; 
+            }
+            else if (rdnTime.Checked)
+            {
+                columnCount = 5;
+                rowCount = 15; 
+                start();
+                this.groupBox1.Enabled = false; 
+            }
         }
-
-        private void rdnTime_CheckedChanged(object sender, EventArgs e)
+        private void pictureBox_MouseDown(object sender, MouseEventArgs e)
         {
-            columnCount = 5;
-            rowCount = 15;
-           
-            start();
-            this.groupBox1.Enabled = false;
-
+            if (isEnd)
+            {
+                this.groupBox1.Enabled = true;
+                this.createButton.Enabled = true;
+                isEnd = false;
+            } 
         }
 
         private void start()
@@ -407,8 +416,8 @@ namespace TestProject
             {
                 this.groupBox1.Enabled = true;
                 this.createButton.Enabled = true;
-                //this.pictureBox = new PictureBox();
                 isEnd = false;
+                return;
             }
             switch (e.KeyCode)
             {
@@ -462,9 +471,9 @@ namespace TestProject
             }
         }
 
+
         #endregion
 
-        
     }
 }
 

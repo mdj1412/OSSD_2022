@@ -56,6 +56,7 @@
             this.pictureBox.TabIndex = 17;
             this.pictureBox.TabStop = false;
             this.pictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox_Paint);
+            this.pictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseDown);
             this.pictureBox.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.pictureBox_PreviewKeyDown);
             // 
             // createButton
@@ -66,6 +67,7 @@
             this.createButton.TabIndex = 4;
             this.createButton.Text = "생성하기";
             this.createButton.UseVisualStyleBackColor = true;
+            this.createButton.Click += new System.EventHandler(this.createButten_Click);
             // 
             // groupBox1
             // 
@@ -88,7 +90,6 @@
             this.rdnTime.TabStop = true;
             this.rdnTime.Text = "타임어택";
             this.rdnTime.UseVisualStyleBackColor = true;
-            this.rdnTime.CheckedChanged += new System.EventHandler(this.rdnTime_CheckedChanged);
             // 
             // rdnAlone
             // 
@@ -100,7 +101,6 @@
             this.rdnAlone.TabStop = true;
             this.rdnAlone.Text = "혼자놀기";
             this.rdnAlone.UseVisualStyleBackColor = true;
-            this.rdnAlone.CheckedChanged += new System.EventHandler(this.rdnAlone_CheckedChanged);
             // 
             // MainForm
             // 

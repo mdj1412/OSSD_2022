@@ -19,6 +19,8 @@ namespace TestProject
 
         #region Field
 
+        MainForm form2;
+
         int dd;
         Point st;
         int starty;
@@ -292,8 +294,8 @@ namespace TestProject
                 this.solutionFound = true;
 
                 this.timer.Enabled = false;
-                MainForm form = (MainForm)Owner;
-                form.isEnd = true;
+                form2 = (MainForm)Owner;
+                form2.isEnd = true;
                 MessageBox.Show("Computer won!");
 
                 return;
