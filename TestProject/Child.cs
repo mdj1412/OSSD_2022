@@ -96,6 +96,8 @@ namespace TestProject
         public Child(Bitmap bitmap, MazeNode[,] nodeArray,int fps)
         {
             InitializeComponent();
+            this.Location=new Point(750,0);
+            this.Size = new Size(750, 800);
             this.nodeArray = nodeArray;
             this.pictureBox.Image = bitmap;
 

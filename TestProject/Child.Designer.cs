@@ -44,7 +44,7 @@ namespace TestProject
             this.pictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox.Location = new System.Drawing.Point(12, 50);
             this.pictureBox.Name = "pictureBox";
-            this.pictureBox.Size = new System.Drawing.Size(708, 452);
+            this.pictureBox.Size = new System.Drawing.Size(708, 652);
             this.pictureBox.TabIndex = 18;
             this.pictureBox.TabStop = false;
             this.pictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox_Paint);
@@ -57,10 +57,11 @@ namespace TestProject
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(732, 553);
+            this.ClientSize = new System.Drawing.Size(732, 753);
             this.Controls.Add(this.pictureBox);
             this.Enabled = false;
             this.Name = "Child";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Child";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
             this.ResumeLayout(false);

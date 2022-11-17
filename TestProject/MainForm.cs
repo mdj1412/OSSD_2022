@@ -93,8 +93,6 @@ namespace TestProject
         public MainForm()
         {
             InitializeComponent();
-            
-            
         }
 
         #endregion
@@ -353,9 +351,6 @@ namespace TestProject
             if (this.rdnTime.Checked == true)
             {
                 this.child_computer = new Child(bitmap, this.nodeArray,fps);
-                child_computer.Location = new Point(750, 0);
-                //this.Size = new Size(800, 600);
-                //child_computer.Size = new Size(800, 600);
                 child_computer.Show();
                 //컴퓨터가 이겼을때 이곳으로 return
         

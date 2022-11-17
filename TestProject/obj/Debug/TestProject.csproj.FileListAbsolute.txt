@@ -29,3 +29,4 @@ C:\Users\jjaew\OneDrive\Desktop\OSSD_2022\TestProject\obj\Debug\TestProject.cspr
 C:\Users\jjaew\OneDrive\Desktop\OSSD_2022\TestProject\obj\Debug\TestProject.exe
 C:\Users\jjaew\OneDrive\Desktop\OSSD_2022\TestProject\obj\Debug\TestProject.pdb
 C:\Users\jjaew\OneDrive\Desktop\OSSD_2022\TestProject\obj\Debug\TestProject.Child.resources
+C:\Users\HC\Desktop\오픈소스소프트웨어개발\게임자료\OSSD_2022\TestProject\obj\Debug\TestProject.Child.resources
