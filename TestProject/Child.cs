@@ -129,41 +129,6 @@ namespace TestProject
         /// </summary>
         /// <param name="sender">이벤트 발생자</param>
         /// <param name="e">이벤트 인자</param>
-        /*private void pictureBox_Paint(object sender, PaintEventArgs e)
-        {
-            e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
-
-            if (this.startNode != null)
-            {
-                this.startNode.DrawCenterPoint(e.Graphics, Brushes.Blue);
-            }
-
-            if (this.endNode != null)
-            {
-                this.endNode.DrawCenterPoint(e.Graphics, Brushes.Green);
-            }
-
-            if ((this.pathNodeList != null) && (this.pathNodeList.Count > 1))
-            {
-                List<PointF> pointList = new List<PointF>();
-
-                foreach (MazeNode node in this.pathNodeList)
-                {
-                    pointList.Add(node.CenterPoint);
-                }
-            }
-
-        }*/
-
-        #endregion
-
-        #region 픽처 박스 페인트시 처리하기 - pictureBox_Paint(sender, e)
-
-        /// <summary>
-        /// 픽처 박스 페인트시 처리하기
-        /// </summary>
-        /// <param name="sender">이벤트 발생자</param>
-        /// <param name="e">이벤트 인자</param>
         private void pictureBox_Paint(object sender, PaintEventArgs e)
         {
             e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
@@ -184,13 +149,15 @@ namespace TestProject
 
                 foreach (MazeNode node in this.pathNodeList)
                 {
+                    node.DrawCenterPoint(e.Graphics,Brushes.Red);
                     pointList.Add(node.CenterPoint);
                 }
-
+                int count = pointList.Count();
                 if ((this.startNode != null) && (this.endNode != null))
                 {
                     //StartSolving();
                 }
+                PointF currentLocation = pointList[count - 1];
 
                 if (this.solutionFound)
                 {

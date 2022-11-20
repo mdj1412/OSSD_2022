@@ -52,7 +52,7 @@
             this.pictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox.Location = new System.Drawing.Point(12, 60);
             this.pictureBox.Name = "pictureBox";
-            this.pictureBox.Size = new System.Drawing.Size(708, 652);
+            this.pictureBox.Size = new System.Drawing.Size(1458, 652);
             this.pictureBox.TabIndex = 17;
             this.pictureBox.TabStop = false;
             this.pictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox_Paint);
@@ -106,7 +106,7 @@
             // 
             this.AcceptButton = this.createButton;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(732, 753);
+            this.ClientSize = new System.Drawing.Size(1482, 753);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.pictureBox);
             this.Controls.Add(this.createButton);

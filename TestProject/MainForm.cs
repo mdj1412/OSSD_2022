@@ -23,7 +23,7 @@ namespace TestProject
         Point st;
         int starty;
         int startx;
-        int count = 0;
+        int count = 1;
 
         public bool isEnd = false;
 
@@ -52,12 +52,12 @@ namespace TestProject
         /// <summary>
         /// 행 카운트
         /// </summary>
-        private int rowCount;
+        private int rowCount=6;
 
         /// <summary>
         /// 컬럼 카운트
         /// </summary>
-        private int columnCount;
+        private int columnCount=6;
 
         /// <summary>
         /// 노드 배열
@@ -116,32 +116,38 @@ namespace TestProject
         {
             if (rdnAlone.Checked)
             {
-                columnCount = 6;
-                rowCount = 6;
+                this.Size = new Size(1500, 800);
                 start();
-                this.groupBox1.Enabled = false; 
+                this.pictureBox.Focus();
             }
             else if (rdnTime.Checked)
             {
+                this.Size=new Size(750, 800);
+                count = 1;
                 columnCount = 5;
-                rowCount = 15; 
+                rowCount = 15;
+                fps = 5;
                 start();
-                this.groupBox1.Enabled = false; 
             }
         }
         private void pictureBox_MouseDown(object sender, MouseEventArgs e)
         {
             if (isEnd)
             {
-                this.groupBox1.Enabled = true;
-                this.createButton.Enabled = true;
+                rowCount = 6;
+                columnCount = 6;
+                count = 1;
+                this.createButton.Visible = true;
+                this.groupBox1.Visible = true;
                 isEnd = false;
-            } 
+                return;
+            }
         }
 
         private void start()
         {
-            this.createButton.Enabled = false;
+            this.createButton.Visible = false;
+            this.groupBox1.Visible = false;
             this.pictureBox.Focus();
 
             this.cellWidth = this.pictureBox.ClientSize.Width / (this.columnCount + 2);
@@ -215,6 +221,8 @@ namespace TestProject
                     pointList.Add(node.CenterPoint);
                 }
             }
+
+
 
         }
 
@@ -365,6 +373,7 @@ namespace TestProject
                 this.child_computer = new Child(bitmap, this.nodeArray,fps,dd,st,endNode);
                 child_computer.Owner = this;
                 child_computer.Show();
+                this.pictureBox.Focus();
                 //컴퓨터가 이겼을때 이곳으로 return
             }
 
@@ -412,13 +421,6 @@ namespace TestProject
 
         private void pictureBox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
-            if (isEnd)
-            {
-                this.groupBox1.Enabled = true;
-                this.createButton.Enabled = true;
-                isEnd = false;
-                return;
-            }
             switch (e.KeyCode)
             {
                 case Keys.Up:
@@ -453,24 +455,28 @@ namespace TestProject
             pictureBox.Focus();
 
             if (this.startNode == this.endNode)
-            { 
+            {
+
+                this.createButton.Visible = true;
+                this.groupBox1.Visible = true;
                 if (count % 3 == 1)
                     this.rowCount += 2;
                 else if (count % 3 == 2)
                     this.columnCount += 2;
-                count++;
-                MessageBox.Show("You won!"); //내가 컴퓨터를 이긴 경우
                if (rdnTime.Checked == true)
                 {
                     child_computer.Close();
+                    MessageBox.Show("level " + count + " You won!"); //내가 컴퓨터를 이긴 경우
                     fps += 2;
                     columnCount += 1;
                     rowCount += 3;
+                    start();
                 }
-                start();
+               if (rdnAlone.Checked==true) MessageBox.Show("level " + count + " You won!"); //내가 컴퓨터를 이긴 경우
+               
+               count++;
             }
         }
-
 
         #endregion
 
