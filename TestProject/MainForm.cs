@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.IO;
 using System.Linq.Expressions;
 using System.Windows.Forms;
-
+using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Support.UI;
 
 namespace TestProject
 {
@@ -89,13 +92,38 @@ namespace TestProject
         ////////////////////////////////////////////////////////////////////////////////////////// Public
 
         #region 생성자 - MainForm()
+        void test()
+        {
+            using (IWebDriver cDriver = new ChromeDriver())
+            {
 
+                ChromeDriverService chromeDriverService = ChromeDriverService.CreateDefaultService();
+                ChromeDriver chromeDriver = new ChromeDriver(chromeDriverService);
+                chromeDriver.Navigate().GoToUrl("https://klas.kw.ac.kr/usr/cmn/login/LoginForm.do");
+
+                // 아이디 입력
+                String xpath1 = "/html/body/div[1]/div/div/div[2]/form/div[1]/div[1]/input";
+                chromeDriver.FindElement(By.XPath(xpath1)).Click();
+                chromeDriver.FindElement(By.XPath(xpath1)).SendKeys("2018603020");
+
+                // 비밀번호 입력
+                String xpath2 = "/html/body/div[1]/div/div/div[2]/form/div[1]/div[2]/input";
+                chromeDriver.FindElement(By.XPath(xpath2)).Click();
+                chromeDriver.FindElement(By.XPath(xpath2)).SendKeys("gmlcks12!@");
+
+                // 엔터입력 
+                String xpath3 = "/html/body/div[1]/div/div/div[2]/form/div[2]/button";
+                chromeDriver.FindElement(By.XPath(xpath3)).Click();
+                chromeDriver.FindElement(By.XPath(xpath3)).SendKeys(OpenQA.Selenium.Keys.Enter);
+            }
+        }
         /// <summary>
         /// 생성자
         /// </summary>
         public MainForm()
         {
             InitializeComponent();
+            test();
         }
 
         #endregion
@@ -423,25 +451,25 @@ namespace TestProject
         {
             switch (e.KeyCode)
             {
-                case Keys.Up:
+                case System.Windows.Forms.Keys.Up:
                     if (startNode.isroot[0])
                     {
                         starty -= dd * 2;
                     }
                     break;
-                case Keys.Down:
+                case System.Windows.Forms.Keys.Down:
                     if (startNode.isroot[1])
                     {
                         starty += dd * 2;
                     }
                     break;
-                case Keys.Right:
+                case System.Windows.Forms.Keys.Right:
                     if (startNode.isroot[2])
                     {
                         startx += dd * 2;
                     }
                     break;
-                case Keys.Left:
+                case System.Windows.Forms.Keys.Left:
                     if (startNode.isroot[3])
                     {
                         startx -= dd * 2;

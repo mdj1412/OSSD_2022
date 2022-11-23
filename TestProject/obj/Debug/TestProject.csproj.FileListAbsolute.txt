@@ -41,3 +41,10 @@ C:\Users\jjaew\Downloads\OSSD_2022-master\TestProject\obj\Debug\TestProject.cspr
 C:\Users\jjaew\Downloads\OSSD_2022-master\TestProject\obj\Debug\TestProject.csproj.CoreCompileInputs.cache
 C:\Users\jjaew\Downloads\OSSD_2022-master\TestProject\obj\Debug\TestProject.exe
 C:\Users\jjaew\Downloads\OSSD_2022-master\TestProject\obj\Debug\TestProject.pdb
+C:\Users\HC\Desktop\오픈소스소프트웨어개발\게임자료\OSSD_2022\TestProject\bin\Debug\selenium-manager\linux\selenium-manager
+C:\Users\HC\Desktop\오픈소스소프트웨어개발\게임자료\OSSD_2022\TestProject\bin\Debug\selenium-manager\macos\selenium-manager
+C:\Users\HC\Desktop\오픈소스소프트웨어개발\게임자료\OSSD_2022\TestProject\bin\Debug\selenium-manager\windows\selenium-manager.exe
+C:\Users\HC\Desktop\오픈소스소프트웨어개발\게임자료\OSSD_2022\TestProject\bin\Debug\SeleniumExtras.WaitHelpers.dll
+C:\Users\HC\Desktop\오픈소스소프트웨어개발\게임자료\OSSD_2022\TestProject\bin\Debug\WebDriver.dll
+C:\Users\HC\Desktop\오픈소스소프트웨어개발\게임자료\OSSD_2022\TestProject\bin\Debug\WebDriver.Support.dll
+C:\Users\HC\Desktop\오픈소스소프트웨어개발\게임자료\OSSD_2022\TestProject\obj\Debug\TestProject.csproj.CopyComplete
