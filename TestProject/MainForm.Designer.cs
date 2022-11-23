@@ -35,6 +35,7 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.rdnTime = new System.Windows.Forms.RadioButton();
             this.rdnAlone = new System.Windows.Forms.RadioButton();
+            this.klas = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -102,11 +103,24 @@
             this.rdnAlone.Text = "혼자놀기";
             this.rdnAlone.UseVisualStyleBackColor = true;
             // 
+            // klas
+            // 
+            this.klas.Location = new System.Drawing.Point(580, 16);
+            this.klas.Name = "klas";
+            this.klas.Size = new System.Drawing.Size(75, 32);
+            this.klas.TabIndex = 19;
+            this.klas.TabStop = false;
+            this.klas.Text = "klas";
+            this.klas.UseVisualStyleBackColor = true;
+            this.klas.Visible = false;
+            this.klas.Click += new System.EventHandler(this.klas_Click);
+            // 
             // MainForm
             // 
             this.AcceptButton = this.createButton;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(1482, 753);
+            this.Controls.Add(this.klas);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.pictureBox);
             this.Controls.Add(this.createButton);
@@ -128,6 +142,7 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.RadioButton rdnTime;
         private System.Windows.Forms.RadioButton rdnAlone;
+        private System.Windows.Forms.Button klas;
     }
 }
 

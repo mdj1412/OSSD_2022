@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.IO;
 using System.Linq.Expressions;
 using System.Windows.Forms;
-
+using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Support.UI;
 
 namespace TestProject
 {
@@ -19,7 +22,7 @@ namespace TestProject
         #region Field
 
         int dd;
-        int fps=5;
+        int fps = 5;
         Point st;
         int starty;
         int startx;
@@ -55,12 +58,12 @@ namespace TestProject
         /// <summary>
         /// 행 카운트
         /// </summary>
-        private int rowCount=6;
+        private int rowCount = 6;
 
         /// <summary>
         /// 컬럼 카운트
         /// </summary>
-        private int columnCount=6;
+        private int columnCount = 6;
 
         /// <summary>
         /// 노드 배열
@@ -92,14 +95,38 @@ namespace TestProject
         ////////////////////////////////////////////////////////////////////////////////////////// Public
 
         #region 생성자 - MainForm()
+        void test(string ID, string PW)
+        {
+            using (IWebDriver cDriver = new ChromeDriver())
+            {
 
+                ChromeDriverService chromeDriverService = ChromeDriverService.CreateDefaultService();
+                ChromeDriver chromeDriver = new ChromeDriver(chromeDriverService);
+                chromeDriver.Navigate().GoToUrl("https://klas.kw.ac.kr/usr/cmn/login/LoginForm.do");
+
+                // 아이디 입력
+                String xpath1 = "/html/body/div[1]/div/div/div[2]/form/div[1]/div[1]/input";
+                chromeDriver.FindElement(By.XPath(xpath1)).Click();
+                chromeDriver.FindElement(By.XPath(xpath1)).SendKeys(ID);
+
+                // 비밀번호 입력
+                String xpath2 = "/html/body/div[1]/div/div/div[2]/form/div[1]/div[2]/input";
+                chromeDriver.FindElement(By.XPath(xpath2)).Click();
+                chromeDriver.FindElement(By.XPath(xpath2)).SendKeys(PW);
+
+                // 엔터입력 
+                String xpath3 = "/html/body/div[1]/div/div/div[2]/form/div[2]/button";
+                //chromeDriver.FindElement(By.XPath(xpath3)).Click();
+                chromeDriver.FindElement(By.XPath(xpath3)).SendKeys(OpenQA.Selenium.Keys.Enter);
+            }
+        }
         /// <summary>
         /// 생성자
         /// </summary>
         public MainForm()
         {
             InitializeComponent();
-            Login login=new Login();
+            Login login = new Login();
             login.Owner = this;
             login.Show();
         }
@@ -122,13 +149,14 @@ namespace TestProject
         {
             if (rdnAlone.Checked)
             {
+                klas.Visible = false;
                 this.Size = new Size(1500, 800);
                 start();
                 this.pictureBox.Focus();
             }
             else if (rdnTime.Checked)
             {
-                this.Size=new Size(750, 800);
+                this.Size = new Size(750, 800);
                 count = 1;
                 columnCount = 5;
                 rowCount = 15;
@@ -146,8 +174,10 @@ namespace TestProject
                 this.createButton.Visible = true;
                 this.groupBox1.Visible = true;
                 isEnd = false;
+                klas.Enabled = true;
                 return;
             }
+            if (count >= 2) klas.Enabled = true;
         }
 
         private void start()
@@ -192,7 +222,7 @@ namespace TestProject
             {
                 node.DefineNeighbor();
             }
-            this.pictureBox.Refresh(); 
+            this.pictureBox.Refresh();
         }
 
         #endregion
@@ -376,14 +406,14 @@ namespace TestProject
             this.pictureBox.Image = bitmap;
             if (this.rdnTime.Checked == true)
             {
-                this.child_computer = new Child(bitmap, this.nodeArray,fps,dd,st,endNode);
+                this.child_computer = new Child(bitmap, this.nodeArray, fps, dd, st, endNode);
                 child_computer.Owner = this;
                 child_computer.Show();
                 this.pictureBox.Focus();
                 //컴퓨터가 이겼을때 이곳으로 return
             }
 
-            
+
         }
 
         #endregion
@@ -429,25 +459,25 @@ namespace TestProject
         {
             switch (e.KeyCode)
             {
-                case Keys.Up:
+                case System.Windows.Forms.Keys.Up:
                     if (startNode.isroot[0])
                     {
                         starty -= dd * 2;
                     }
                     break;
-                case Keys.Down:
+                case System.Windows.Forms.Keys.Down:
                     if (startNode.isroot[1])
                     {
                         starty += dd * 2;
                     }
                     break;
-                case Keys.Right:
+                case System.Windows.Forms.Keys.Right:
                     if (startNode.isroot[2])
                     {
                         startx += dd * 2;
                     }
                     break;
-                case Keys.Left:
+                case System.Windows.Forms.Keys.Left:
                     if (startNode.isroot[3])
                     {
                         startx -= dd * 2;
@@ -469,7 +499,7 @@ namespace TestProject
                     this.rowCount += 2;
                 else if (count % 3 == 2)
                     this.columnCount += 2;
-               if (rdnTime.Checked == true)
+                if (rdnTime.Checked == true)
                 {
                     child_computer.Close();
                     MessageBox.Show("level " + count + " You won!"); //내가 컴퓨터를 이긴 경우
@@ -478,14 +508,26 @@ namespace TestProject
                     rowCount += 3;
                     start();
                 }
-               if (rdnAlone.Checked==true) MessageBox.Show("level " + count + " You won!"); //내가 컴퓨터를 이긴 경우
-               
-               count++;
+                if (rdnAlone.Checked == true)
+                {
+                    MessageBox.Show("level " + count + " You clear!");                
+                }
+                if (count >= 2)
+                {
+                    klas.Visible = true;
+                    klas.Enabled = false;
+                }
+                count++;
+ 
             }
+            #endregion
+
+
         }
-
-        #endregion
-
-    }
+        private void klas_Click(object sender, EventArgs e)
+        {
+            test(this.ID, this.PW);
+        }
+    } 
 }
 
