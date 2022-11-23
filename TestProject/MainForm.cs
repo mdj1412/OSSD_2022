@@ -25,6 +25,9 @@ namespace TestProject
         int startx;
         int count = 1;
 
+        public String ID;
+        public String PW;
+
         public bool isEnd = false;
 
         Point epoint;
@@ -96,6 +99,9 @@ namespace TestProject
         public MainForm()
         {
             InitializeComponent();
+            Login login=new Login();
+            login.Owner = this;
+            login.Show();
         }
 
         #endregion

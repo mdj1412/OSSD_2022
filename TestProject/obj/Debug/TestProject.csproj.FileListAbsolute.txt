@@ -41,3 +41,4 @@ C:\Users\jjaew\Downloads\OSSD_2022-master\TestProject\obj\Debug\TestProject.cspr
 C:\Users\jjaew\Downloads\OSSD_2022-master\TestProject\obj\Debug\TestProject.csproj.CoreCompileInputs.cache
 C:\Users\jjaew\Downloads\OSSD_2022-master\TestProject\obj\Debug\TestProject.exe
 C:\Users\jjaew\Downloads\OSSD_2022-master\TestProject\obj\Debug\TestProject.pdb
+C:\Users\jjaew\OneDrive\Desktop\OSSD_2022\TestProject\obj\Debug\TestProject.Login.resources
