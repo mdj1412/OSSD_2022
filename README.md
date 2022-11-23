@@ -11,14 +11,20 @@
 2. "OSSD_2022" 압축 풀기  
 
 
-3. OSSD_2022 / TestProject / bin / Release / TestProject.exe (실행파일 실행)
+3. OSSD_2022 / MazeRun.exe (실행파일 실행) 
+  
+    <img src="./resource/Start.ico" height="50px" width="50px">
+
 ---------------
 ## 프로젝트 내용
 
+<img src="./resource/resource1.png" height="250px" width="500px">
 
------------
-## License
-Performance_Helper is licensed under the **[MIT License]**.  
+1. klas에 로그인하기 위한 학번과 비밀번호를 입력 후 로그인 버튼을 누른다
+2. GameMode 박스에서 원하는 게임모드를 선택 후 생성하기 버튼을 누른다
+3. 해당 모드를 플레이한다
+4. 혼자놀기 모드에서 5회 이상 승리 시 klas 접속버튼이 visible하게 된다
+5. 게임보드를 클릭하면 klas 버튼이 활성화된다
 
 ----------
 
@@ -35,6 +41,10 @@ Performance_Helper is licensed under the **[MIT License]**.
       <a href="https://github.com/mdj1412"><img src="https://avatars.githubusercontent.com/u/91893721?v=4" width="100px;" alt=""/> <br /> <sub> <b>민동준</b> </sub> </a> <br />
   </tr>
 </table>
+
+-----------
+## License
+Performance_Helper is licensed under the **[MIT License]**.  
 
 
 

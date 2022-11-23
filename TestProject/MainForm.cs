@@ -177,7 +177,7 @@ namespace TestProject
                 klas.Enabled = true;
                 return;
             }
-            if (count >= 2) klas.Enabled = true;
+            if (count >= 5) klas.Enabled = true;
         }
 
         private void start()
@@ -512,7 +512,7 @@ namespace TestProject
                 {
                     MessageBox.Show("level " + count + " You clear!");                
                 }
-                if (count >= 2)
+                if (count >= 5)
                 {
                     klas.Visible = true;
                     klas.Enabled = false;
