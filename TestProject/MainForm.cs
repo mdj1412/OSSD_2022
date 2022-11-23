@@ -104,12 +104,12 @@ namespace TestProject
                 // 아이디 입력
                 String xpath1 = "/html/body/div[1]/div/div/div[2]/form/div[1]/div[1]/input";
                 chromeDriver.FindElement(By.XPath(xpath1)).Click();
-                chromeDriver.FindElement(By.XPath(xpath1)).SendKeys("2018603020");
+                chromeDriver.FindElement(By.XPath(xpath1)).SendKeys("");
 
                 // 비밀번호 입력
                 String xpath2 = "/html/body/div[1]/div/div/div[2]/form/div[1]/div[2]/input";
                 chromeDriver.FindElement(By.XPath(xpath2)).Click();
-                chromeDriver.FindElement(By.XPath(xpath2)).SendKeys("gmlcks12!@");
+                chromeDriver.FindElement(By.XPath(xpath2)).SendKeys("");
 
                 // 엔터입력 
                 String xpath3 = "/html/body/div[1]/div/div/div[2]/form/div[2]/button";
