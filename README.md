@@ -1,11 +1,20 @@
 # OSSD2022  (	9조-조용한 하늘에게 행운이 함께 하기를! )
 --------------------
-## 1. 설치 방법  
+## 설치 방법  
 
-## 2. 버전  
+## 버전  
 
-## 3. 프로젝트 내용
+## 프로젝트 내용
 
-## 4. 사용 방법
+## 사용 방법
 
-## 5. 
+## License
+Performance_Helper is licensed under the **[MIT License]**.  
+
+## Contributors
+
+
+
+
+
+[MIT License]: https://github.com/mdj1412/OSSD_2022/blob/master/LICENSE.txt
