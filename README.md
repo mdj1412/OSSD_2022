@@ -17,4 +17,4 @@ Performance_Helper is licensed under the **[MIT License]**.
 
 
 
-[MIT License]: https://github.com/mdj1412/OSSD_2022/blob/master/LICENSE.txt
+[MIT License]: https://github.com/mdj1412/OSSD_2022/blob/master/LICENSE
