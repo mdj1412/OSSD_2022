@@ -46,6 +46,8 @@
 ## License
 Performance_Helper is licensed under the **[MIT License]**.  
 
+----------
+
 ## 오픈소스 출처
 https://icodebroker.tistory.com/8124
 
